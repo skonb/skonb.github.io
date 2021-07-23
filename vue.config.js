@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: 'https://skonb.github.io/skonb.github.io/', 
+    publicPath: '/', 
     outputDir: 'docs',
     filenameHashing: false,
     productionSourceMap: false,
