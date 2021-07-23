@@ -1,12 +1,23 @@
 <template>
-	<div id="nav">
-		<router-link to="/">Home</router-link> |
-		<router-link to="/about">About</router-link>
-	</div>
-	<router-view />
+    <div>
+        <div id="nav">
+            <router-link to="/">Top</router-link> |
+            <router-link to="/achievement">Achievement</router-link>
+        </div>
+                <router-view />
+            </div>
 </template>
+<script type="ts">
+import 'bootstrap/dist/css/bootstrap.css'; // add
+import 'bootstrap-vue/dist/bootstrap-vue.css'; // add
+
+import { defineComponent } from 'vue';
+export default defineComponent({
+});
+</script>
 
 <style>
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
