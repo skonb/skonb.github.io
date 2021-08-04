@@ -2,7 +2,8 @@
     <div>
         <div id="nav">
             <router-link to="/">Top</router-link> |
-            <router-link to="/achievement">Achievement</router-link>
+            <router-link to="/achievement">Achievement</router-link> |
+            <router-link to="/game">Game_Corner</router-link>
         </div>
                 <router-view />
             </div>
