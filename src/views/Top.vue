@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="col-sm-12 fade-in-bottom">
-            なんかふわっと現れるやーつ
+            下からふわっと現れるアニメーション文字テスト
         </div>
     </div>
 </template>
