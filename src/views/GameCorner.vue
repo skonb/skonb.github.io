@@ -20,6 +20,12 @@ export default defineComponent({
         const my_canvas=ref<HTMLCanvasElement|null>(null) ;
         let x:number;
         let y:number;
+        //let r=30;
+        let color_array = ['red','blue','cien','magenta','green'];
+
+        let dx = -0.5;
+        let dy = -1.5;
+        let cnt=0;
         //
         onMounted(async () => {
             //const canvas = document.getElementById('myCanvas');
@@ -40,17 +46,38 @@ export default defineComponent({
             if (ctx==null){
                 return;
             }
-
-            let dx = 2;
-            let dy = -2;
             //画面クリア
             ctx.clearRect(0, 0, my_canvas.value!.width, my_canvas.value!.height);
-            //円を描く
             ctx.beginPath();
-            ctx.arc(x, y, 20, 0, Math.PI*2, false);//円の中心x,円の中心y,円の半径, 開始角度と終了角度，描く方向(falseなら時計回り)
+            //背景を描く
+            ctx.fillStyle='rgb(255,255,255)';
+            ctx.strokeStyle='rgb(0,0,0)';
+            ctx.fillRect(0,0,my_canvas.value!.width, my_canvas.value!.height);
+            ctx.strokeRect(0,0,my_canvas.value!.width, my_canvas.value!.height);
+            //円を描く
+            //ctx.arc(x, y, r, 0, Math.PI*2, false);//円の中心x,円の中心y,円の半径, 開始角度と終了角度，描く方向(falseなら時計回り)
+            //画像を描く
+            let img = new Image();
+            let selected_img = color_array[cnt%color_array.length];
+            img.src = `/dvd/${selected_img}.png`;
+            img.style.cssText='green';
+            ctx.drawImage(img ,x,y);
+
             ctx.fillStyle = 'green';
             ctx.fill();
             ctx.closePath();
+
+            const rx = img.width;
+            const ry = img.height;
+            if (dx<0 && x<0||dx>0&&x+rx>my_canvas.value!.width){
+                dx*=-1;
+                cnt+=1;
+            }
+            if (dy<0 && y<0||dy>0&&y+ry>my_canvas.value!.height){
+                dy*=-1;
+                cnt +=1;
+            }
+
             x += dx;
             y += dy;
         };
