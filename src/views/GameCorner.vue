@@ -3,26 +3,82 @@
         <div class="col-sm-12">
                 <h2>ゲームコーナー</h2>
         </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <div class="col-sm-12">
             <canvas id="myCanvas" ref="my_canvas" width="480" height="320"></canvas>
         </div>
         <button value="Reload" onclick="window.location.reload();">Reload</button>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
     </div>
 </template>
 <script lang='ts'>
 import { defineComponent, onMounted, ref } from 'vue';
+import {useRouter} from 'vue-router';
 
 export default defineComponent({
     e: '#game_corner',
     //data・methods・computed・ライフサイクルメソッドなどの区別がなくなり、全てがsetupメソッドの中に記述される
     setup :() =>{
-        
+        //vue system
+        const router = useRouter();
+
+        //game system
         const my_canvas=ref<HTMLCanvasElement|null>(null) ;
+        let dx = -1.5;
+        let dy = -2.5;
+        let interval:number;
+
+        //ball
         let x:number;
         let y:number;
-        let r=30;
-        let dx = -0.5;
-        let dy = -1.5;
+        let r=10;
+
         //Paddle
         let paddleHeight = 10;
         let paddleWidth = 70;
@@ -39,7 +95,7 @@ export default defineComponent({
                 return;
             }
             //描画ループを定義する
-            setInterval(draw, 10);
+            interval = setInterval(draw, 10);
             paddleX = (my_canvas.value!.width-paddleWidth)/2;
             window.addEventListener('keydown', keyDownHandler, false);
             window.addEventListener('keyup', keyUpHandler, false);
@@ -98,19 +154,31 @@ export default defineComponent({
             ctx.fill();
             ctx.closePath();
             drawPaddle();
+            x += dx;
+            y += dy;
             if (dx<0 && x-r<0||dx>0&&x+r>my_canvas.value!.width){
                 dx*=-1;
             }
-            if (dy<0 && y-r<0||dy>0&&y+r>my_canvas.value!.height){
+            if (dy<0 && y-r<0){
                 dy*=-1;
+            } else if (dy>0&&y+r>my_canvas.value!.height){
+                if (x > paddleX && x<paddleX+paddleWidth){
+                    dy*=-1;
+                }else{
+                    alert('Game Over');
+                    reload();
+                    clearInterval(interval);
+                }
             }
-            x += dx;
-            y += dy;
+        };
+        const reload=()=> {
+            router.go(0);
         };
         return {
             my_canvas,
             drawPaddle,
             draw,
+            reload
         };
     }
 });
