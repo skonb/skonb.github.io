@@ -3,58 +3,11 @@
         <div class="col-sm-12">
                 <h2>ゲームコーナー</h2>
         </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
         <div class="col-sm-12">
             <canvas id="myCanvas" ref="my_canvas" width="480" height="320"></canvas>
         </div>
-        <button value="Reload" onclick="window.location.reload();">Reload</button>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+        <button value="Reload" @click="reload()">Reload</button>
+        <button value="CheatMode" @click="toggleCheat();">Cheat Mode</button>
     </div>
 </template>
 <script lang='ts'>
@@ -85,6 +38,7 @@ export default defineComponent({
         let rightPressed = false;
         let leftPressed = false;
         let paddleX:number;
+        let cheatMode=false;
 
         onMounted(async () => {
             x = my_canvas.value!.width/2;
@@ -100,6 +54,9 @@ export default defineComponent({
             window.addEventListener('keydown', keyDownHandler, false);
             window.addEventListener('keyup', keyUpHandler, false);
         });
+        const toggleCheat=()=>{
+            cheatMode = !cheatMode;
+        };
         const keyDownHandler = (e:KeyboardEvent) => {
             if (e.key=='Right'||e.key=='ArrowRight'){
                 rightPressed = true;
@@ -125,6 +82,9 @@ export default defineComponent({
             }
             if (leftPressed&&paddleX>0){
                 paddleX -= 7;
+            }
+            if (cheatMode){
+                paddleX = x-paddleWidth/2;
             }
             ctx.beginPath();
             ctx.fillStyle = '#0095DD';
@@ -178,7 +138,8 @@ export default defineComponent({
             my_canvas,
             drawPaddle,
             draw,
-            reload
+            reload,
+            toggleCheat
         };
     }
 });
