@@ -21,14 +21,16 @@ export default defineComponent({
         let x:number;
         let y:number;
         let r=30;
-        //let color_array = ['red','blue','cien','magenta','green'];
-
         let dx = -0.5;
         let dy = -1.5;
-        //let cnt = 0;
-        //
+        //Paddle
+        let paddleHeight = 10;
+        let paddleWidth = 70;
+        let rightPressed = false;
+        let leftPressed = false;
+        let paddleX:number;
+
         onMounted(async () => {
-            //const canvas = document.getElementById('myCanvas');
             x = my_canvas.value!.width/2;
             y = my_canvas.value!.height-30;
             console.log(typeof(my_canvas));
@@ -38,8 +40,41 @@ export default defineComponent({
             }
             //描画ループを定義する
             setInterval(draw, 10);
-
+            paddleX = (my_canvas.value!.width-paddleWidth)/2;
+            window.addEventListener('keydown', keyDownHandler, false);
+            window.addEventListener('keyup', keyUpHandler, false);
         });
+        const keyDownHandler = (e:KeyboardEvent) => {
+            if (e.key=='Right'||e.key=='ArrowRight'){
+                rightPressed = true;
+            } else if (e.key == 'Left'||e.key=='ArrowLeft'){
+                leftPressed= true;
+            }
+        };
+        const keyUpHandler = (e:KeyboardEvent) => {
+            if (e.key=='Right'||e.key=='ArrowRight'){
+                rightPressed = false;
+            } else if (e.key == 'Left'||e.key=='ArrowLeft'){
+                leftPressed= false;
+            }
+        };
+        const drawPaddle = ()=>{
+            const ctx = my_canvas.value?.getContext('2d')!;
+            if (ctx==null){
+                return;
+            }
+            //Paddle
+            if (rightPressed && paddleX < my_canvas.value!.width-paddleWidth){
+                paddleX += 7;
+            }
+            if (leftPressed&&paddleX>0){
+                paddleX -= 7;
+            }
+            ctx.beginPath();
+            ctx.fillStyle = '#0095DD';
+            ctx.fillRect(paddleX,my_canvas.value!.height-paddleHeight, paddleWidth, paddleHeight);
+            ctx.closePath();
+        };
         const draw = ()=>{
             //キャンバスの準備
             const ctx = my_canvas.value?.getContext('2d')!;
@@ -48,6 +83,8 @@ export default defineComponent({
             }
             //画面クリア
             ctx.clearRect(0, 0, my_canvas.value!.width, my_canvas.value!.height);
+
+
             ctx.beginPath();
             //背景を描く
             ctx.fillStyle='rgb(255,255,255)';
@@ -56,32 +93,24 @@ export default defineComponent({
             ctx.strokeRect(0,0,my_canvas.value!.width, my_canvas.value!.height);
             //円を描く
             ctx.arc(x, y, r, 0, Math.PI*2, false);//円の中心x,円の中心y,円の半径, 開始角度と終了角度，描く方向(falseなら時計回り)
-            //画像を描く
-            //let img = new Image();
-            //let selected_img = color_array[cnt%color_array.length];
-            //img.src = `/dvd/${selected_img}.png`;
-            //img.style.cssText='green';
-            //ctx.drawImage(img ,x,y);
 
             ctx.fillStyle = 'green';
             ctx.fill();
             ctx.closePath();
-
-            //const rx = img.width;
-            //const ry = img.height;
+            drawPaddle();
             if (dx<0 && x-r<0||dx>0&&x+r>my_canvas.value!.width){
                 dx*=-1;
             }
             if (dy<0 && y-r<0||dy>0&&y+r>my_canvas.value!.height){
                 dy*=-1;
             }
-
             x += dx;
             y += dy;
         };
         return {
             my_canvas,
-            draw
+            drawPaddle,
+            draw,
         };
     }
 });
