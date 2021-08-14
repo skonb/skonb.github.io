@@ -32,6 +32,12 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
 
+      - name: Deploy Configuration
+      run: |
+          mkdir ~/.ssh
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+          echo "${{ secrets.SKONB }}" > ~/.ssh/id_rsa
+          chmod 400 ~/.ssh/id_rsa
 
       - name: Push
         env:
