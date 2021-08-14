@@ -32,30 +32,28 @@ export default defineComponent({
         let x:number;
         let y:number;
         let r=10;
-
         //Paddle
-        let paddleHeight = 10;
-        let paddleWidth = 70;
+        const paddleHeight = 10;
+        const paddleWidth = 70;
         let rightPressed = false;
         let leftPressed = false;
         let paddleX:number;
         let cheatMode=false;
-
-        let brickRowCount = 3;
-        let brickColumnCount = 5;
-        let brickWidth = 75;
-        let brickHeight = 20;
-        let brickPadding = 10;
-        let brickOffsetTop = 30;
-        let brickOffsetLeft = 30;
-        let bricks:Array<Array<any>>=[];
+        //bricks
+        const brickRowCount = 3;
+        const brickColumnCount = 5;
+        const brickWidth = 75;
+        const brickHeight = 20;
+        const brickPadding = 10;
+        const brickOffsetTop = 30;
+        const brickOffsetLeft = 30;
+        const bricks:Array<Array<any>>=[];
         for (let c=0;c<brickColumnCount;c++){
             bricks[c]=[];
             for (let r=0;r<brickRowCount;r++){
-                bricks[c][r] = {x:0,y:0,state:1};
+                bricks[c][r] = {x:0,y:0,display:true};
             }
         }
-
         onMounted(async () => {
             x = my_canvas.value!.width/2;
             y = my_canvas.value!.height-30;
@@ -73,9 +71,9 @@ export default defineComponent({
         //function about brics
         const drawBricks = () => {
             const ctx = my_canvas.value?.getContext('2d')!;
-            for(var c=0; c<brickColumnCount; c++) {
-                for(var r=0; r<brickRowCount; r++) {
-                    if (bricks[c][r].state==1){
+            for(let c=0; c<brickColumnCount; c++) {
+                for(let r=0; r<brickRowCount; r++) {
+                    if (bricks[c][r].display){
                         let brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
                         let brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
                         bricks[c][r].x = brickX;
@@ -85,36 +83,36 @@ export default defineComponent({
                         ctx.fillStyle = '#0095DD';
                         ctx.fill();
                         ctx.closePath();
-
                     }
                 }
             }
         };
         /**
          * 衝突を検知する
+         * 
+         * 衝突条件は
+         * 
+         * 0. b.state==1(blockがまだ消えていない)
+         * 1. brickX<ballX-r
+         * 2. brickY<ballY-r
+         * 3. brickX + brickWidth >ballX+r
+         * 4. brickY + brickHeight >ballY+r
          */
         const collisionDetection = () => {
-            for(var c=0; c<brickColumnCount; c++) {
-                for(var r=0; r<brickRowCount; r++) {
-                    let b = bricks[c][r];
-                    //衝突条件は
-                    // 0. b.state==1(blockがまだ消えていない)
-                    // 1. brickX<ballX-r
-                    // 2. brickY<ballY-r
-                    // 3. brickX + brickWidth >ballX+r
-                    // 4. brickY + brickHeight >ballY+r
-                    let cond0 = b.state==1;
-                    let cond1 = b.x<x-r;
-                    let cond2 = b.y<y-r;
-                    let cond3 = b.x+brickWidth>x+r;
-                    let cond4 = b.y+brickHeight>y+r;
+            for(let c=0; c<brickColumnCount; c++) {
+                for(let r=0; r<brickRowCount; r++) {
+                    const b = bricks[c][r];
+                    const cond0 = b.display==true;
+                    const cond1 = b.x<x-r;
+                    const cond2 = b.y<y-r;
+                    const cond3 = b.x+brickWidth>x+r;
+                    const cond4 = b.y+brickHeight>y+r;
                     if (cond0 &&cond1 && cond2 && cond3 && cond4){
                         dy *=-1;
-                        b.state=0;
+                        b.display=false;
                     }
                 }
             }
-            
         };
         const toggleCheat=()=>{
             cheatMode = !cheatMode;
