@@ -42,11 +42,14 @@ export default defineComponent({
         //bricks
         const brickRowCount = 3;
         const brickColumnCount = 5;
-        const brickWidth = 75;
-        const brickHeight = 20;
-        const brickPadding = 10;
-        const brickOffsetTop = 30;
-        const brickOffsetLeft = 30;
+
+        const brickAreaHeight = 90;
+        let   brickAreaWidth  = 420;        //(width - brickOffsetHorizontal*2)
+        const brickPadding = 10;            //ブロック同士のパディング（縦横共通）
+        const brickOffsetVertical = 30;     //描画エリアに対する垂直方向の
+        const brickOffsetHorizontal = 30;
+        let   brickWidth = (brickAreaWidth-brickPadding*(brickColumnCount-1))/brickColumnCount;
+        let   brickHeight = (brickAreaHeight-brickPadding*(brickRowCount-1))/brickRowCount;
         const bricks:Array<Array<any>>=[];
         for (let c=0;c<brickColumnCount;c++){
             bricks[c]=[];
@@ -57,25 +60,28 @@ export default defineComponent({
         onMounted(async () => {
             x = my_canvas.value!.width/2;
             y = my_canvas.value!.height-30;
-            console.log(typeof(my_canvas));
             const ctx = my_canvas.value?.getContext('2d')!;
             if (ctx==null){
                 return;
             }
             //描画ループを定義する
             interval = setInterval(draw, 10);
+            //パドルの初期位置を計算する
             paddleX = (my_canvas.value!.width-paddleWidth)/2;
+            //キー操作に対するイベントを設定する
             window.addEventListener('keydown', keyDownHandler, false);
             window.addEventListener('keyup', keyUpHandler, false);
+            //ブロックの個数から
         });
         //function about brics
         const drawBricks = () => {
             const ctx = my_canvas.value?.getContext('2d')!;
+
             for(let c=0; c<brickColumnCount; c++) {
                 for(let r=0; r<brickRowCount; r++) {
                     if (bricks[c][r].display){
-                        let brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
-                        let brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+                        let brickX = (c*(brickWidth+brickPadding))+brickOffsetHorizontal;
+                        let brickY = (r*(brickHeight+brickPadding))+brickOffsetVertical;
                         bricks[c][r].x = brickX;
                         bricks[c][r].y = brickY;
                         ctx.beginPath();
