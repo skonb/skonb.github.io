@@ -5,8 +5,8 @@
             <router-link to="/achievement">Achievement</router-link> |
             <router-link to="/game">Game_Corner</router-link>
         </div>
-                <router-view />
-            </div>
+        <router-view />
+    </div>
 </template>
 <script type="ts">
 import 'bootstrap/dist/css/bootstrap.css'; // add

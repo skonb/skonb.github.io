@@ -28,6 +28,9 @@ export default defineComponent({
         let dy = -2.5;
         let interval:number;
 
+        //score
+        let score = 0;
+
         //ball
         let x:number;
         let y:number;
@@ -73,6 +76,11 @@ export default defineComponent({
             window.addEventListener('keyup', keyUpHandler, false);
             //ブロックの個数から
         });
+        const drawScore = () => {
+            const ctx = my_canvas.value?.getContext('2d')!;
+            ctx.fillStyle = '#0095DD';
+            ctx.fillText('Score:'+score,8,20);
+        };
         //function about brics
         const drawBricks = () => {
             const ctx = my_canvas.value?.getContext('2d')!;
@@ -116,6 +124,7 @@ export default defineComponent({
                     if (cond0 &&cond1 && cond2 && cond3 && cond4){
                         dy *=-1;
                         b.display=false;
+                        score +=1;
                     }
                 }
             }
@@ -186,6 +195,7 @@ export default defineComponent({
             drawPaddle();
             collisionDetection();
             drawBricks();
+            drawScore();
             x += dx;
             y += dy;
             if (dx<0 && x-r<0||dx>0&&x+r>my_canvas.value!.width){
@@ -197,7 +207,7 @@ export default defineComponent({
                 if (x > paddleX && x<paddleX+paddleWidth){
                     dy*=-1;
                 }else{
-                    alert('Game Over');
+                    alert('Game Over.\nScore='+score);
                     reload();
                     clearInterval(interval);
                 }
