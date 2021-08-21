@@ -6,40 +6,6 @@ Vue・TypeScriptを用いたSPAとして設計しています．
 
 また，ウェブページのデザインや，CSS Keyframesを用いたリッチなアニメーション，Github Actionsを用いたCI/CDの練習も兼ねています．
 
-## 概要
-
-```
-.
-├── 404.html
-├── [node_modules]
-├── babel.config.js
-├── docs
-│   ├── 404.html
-│   ├── css
-│   ├── favicon.ico
-│   ├── index.html
-│   └── js
-├── package-lock.json
-├── package.json
-├── public
-├── src
-│   ├── App.vue #Vueアプリ本体
-│   ├── assets #未使用
-│   ├── components # 未使用
-│   ├── main.ts
-│   ├── router
-│   ├── shims-vue.d.ts
-│   └── views
-├── tests
-├── tsconfig.json
-└── vue.config.js
-
-12 directories, 16 files
-
-```
-
-
-
 ##Pages
 
 プロジェクトに含まれるフォルダ・ファイルのうち，`/dist`以下の内容がGithub Pagesとしてデプロイされます．
