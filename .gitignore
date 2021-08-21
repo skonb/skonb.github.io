@@ -28,6 +28,7 @@ db.json
 *.log
 node_modules/
 public/
+!public/favicon.ico
 .deploy*/
 src/_drafts
 package-lock.json
