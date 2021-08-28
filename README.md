@@ -7,7 +7,7 @@ Vue・TypeScriptを用いたSPAとして設計しています．
 
 また，ウェブページのデザインや，CSS Keyframesを用いたリッチなアニメーション，Github Actionsを用いたCI/CDの練習も兼ねています．
 
-##Pages
+## Pages
 
 プロジェクトに含まれるフォルダ・ファイルのうち，`/dist`以下の内容がGithub Pagesとしてデプロイされます．
 
