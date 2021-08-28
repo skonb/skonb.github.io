@@ -1,6 +1,7 @@
 # ポートフォリオ
 
-このアプリでは私の経歴について説明するためのページを作成します．
+このアプリでは私の得意・興味のある言語や，経歴について説明するためのページを作成します．
+
 
 Vue・TypeScriptを用いたSPAとして設計しています．
 
@@ -38,10 +39,6 @@ npm run build
 npm run test:unit
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
