@@ -8,11 +8,11 @@
                 <p class="text-align:left;">このページはポートフォリオとして制作したウェブページです．フロントエンドデザインには，Bootstrapフレームワークを含めたCSSを用いました．また，inputフォームを活用するため，JavaScript・Vueを使い，簡単なコメントコーナーも作ってみました．良ければ最後まで見ていってください．よろしくお願いいたします．</p>
             </div>
         </div>
-        <div class="row">
+        <div class="row fade-in-bottom">
             <div class="col-12">
                 <h1>得意な言語</h1>
             </div>
-            <div class="col-lg-12 col-4">
+            <div class="col-lg-12 col-4 ">
                 <h2>Java</h2>
                 JavaはSun Microsystemsが開発し，現在はOracleがベンダーとして開発しているプログラミング言語です．クラス中心のシステムで，オブジェクト指向・型システムがしっかりとしており，抽象的なアプリケーション構築が得意です．また，Java仮想マシンを介しているため，”Write once,run anywhere”をポリシーとしており，Androidスマートフォン，またサーバーアプリ開発では世界的に人気のある言語で，利用者数も多く，コミュニティが活発です．
                 Javaはアルバイトで4年以上使用しており，かなり自信がある言語といえます．
