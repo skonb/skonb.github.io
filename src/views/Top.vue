@@ -8,16 +8,17 @@
                 <p class="text-align:left;">このページはポートフォリオとして制作したウェブページです．フロントエンドデザインには，Bootstrapフレームワークを含めたCSSを用いました．また，inputフォームを活用するため，JavaScript・Vueを使い，簡単なコメントコーナーも作ってみました．良ければ最後まで見ていってください．よろしくお願いいたします．</p>
             </div>
         </div>
-        <div class="row fade-in-bottom">
+        <div ref="fadein_refitem1" class="row before-shown">
             <div class="col-12">
                 <h1>得意な言語</h1>
             </div>
-            <div class="col-lg-12 col-4 ">
+            <!--<div class="col-lg-12 col-4" style="display:none" @scroll="handleScroll">-->
+            <div  class="col-lg-12 col-4 " >
                 <h2>Java</h2>
                 JavaはSun Microsystemsが開発し，現在はOracleがベンダーとして開発しているプログラミング言語です．クラス中心のシステムで，オブジェクト指向・型システムがしっかりとしており，抽象的なアプリケーション構築が得意です．また，Java仮想マシンを介しているため，”Write once,run anywhere”をポリシーとしており，Androidスマートフォン，またサーバーアプリ開発では世界的に人気のある言語で，利用者数も多く，コミュニティが活発です．
                 Javaはアルバイトで4年以上使用しており，かなり自信がある言語といえます．
             </div>
-            <div class="col-lg-12 col-4">
+            <div class="col-lg-12 col-4 ">
                 <h2>Python</h2>
                 Pythonは動的型付けのスクリプト言語で，コードブロックをインデントで作るスタイルで有名です．コードが簡潔・可読性が高いことが特徴です．特に機械学習・ディープラーニングの分野で広く用いられており，自身の研究でも用いています．また，些細なツール・スクリプトを書く時にも有用だと感じています．
             </div>
@@ -27,7 +28,7 @@
                 Webフロント・バックエンドや，Unityの開発などに用いられ，特にWebフロントエンドで，DOMやスタイルの書き換えで動きのあるリッチなウェブページを作りたい場合は，JavaScriptの学習は避けては通れません．文法に起因する問題があり，実務ではなるべく利用したくないため，後述するTypeScriptへの移行を検討しています．
             </div>
         </div>
-        <div class="row">
+        <div ref="fadein_refitem2" class="row before-shown">
             <div class="col-lg-12">
                 <h1>現在，学んでいる言語</h1>
             </div>
@@ -54,25 +55,47 @@
     </div>
 </template>
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent,ref, onMounted} from 'vue';
 
 export default defineComponent({
     e: '#app',
-    methods: {
-        handleScroll: function (evt:Event, el:Element) {
-            if (window.scrollY > 50) {
-                el.setAttribute(
-                    'style',
-                    'opacity: 1; transform: translate3d(0, -10px, 0)'
-                );
+    setup:()=>{
+        const fadein_refitem1 = ref<HTMLDivElement>();
+        const fadein_refitem2 = ref<HTMLDivElement>();
+        onMounted(()=>{
+            let observer = new IntersectionObserver((entries) => {
+                for (let entry of entries){
+                    if (entry && entry.isIntersecting) {
+                        entry.target.setAttribute(
+                            'class',
+                            'row fade-in-bottom'
+                        );
+                    }
+                }
+            });
+            let target_element1 = fadein_refitem1.value;
+            if (target_element1 instanceof HTMLDivElement){
+                //console.log('fadein_refitem instanceof HTMLDivElement');
+                observer.observe(target_element1);
             }
-            return window.scrollY > 100;
-        }
-    }
+            let target_element2 = fadein_refitem2.value;
+            if (target_element2 instanceof HTMLDivElement){
+                //console.log('fadein_refitem instanceof HTMLDivElement');
+                observer.observe(target_element2);
+            }
+        });
+        return {
+            fadein_refitem1,
+            fadein_refitem2
+        };
+    },
 });
 </script>
 <style>
 /*下からフェードイン*/
+.before-shown{
+    opacity:0;
+}
 .fade-in-bottom {
    opacity: 0;
    animation-name: fadein-bottom;
